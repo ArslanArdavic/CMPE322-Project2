@@ -5,7 +5,6 @@
 #include <cmath>
 #include <chrono>
 
-
 using namespace std;
 
 int find_min_sorted(int array[]){
@@ -13,7 +12,6 @@ int find_min_sorted(int array[]){
 }
 int find_max_sorted(int array[], int N){
     return array[N-1];
-
 }
 int find_mode(int array[], int N){
     int number = array[0];
@@ -77,7 +75,6 @@ double find_interquartile_range(int array[], int N){
     double first_median;
     double second_median;
 
-
     if(N % 2){
         // N: odd
         int quartile_size = ((N-1)/2);
@@ -92,14 +89,10 @@ double find_interquartile_range(int array[], int N){
         // N : even => Median = (array[(N+1)/2] + array[(N-1)/2]) / 2   
         return (array[(N+1)/2] + array[(N-1)/2]) / (double)2;
     }
-
-
 }
 
 int main(int argc, char** argv){
 
-
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     /*Initialize the array*/
     int N = atoi(argv[1]);                              // Cast string input to int 
@@ -111,8 +104,13 @@ int main(int argc, char** argv){
         random_integers[i] = distr(gen);				// Generate number
     }
 
+
+
     /*Sort the array and benefit*/
     sort(random_integers, random_integers + N);
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
     int min = find_min_sorted(random_integers);
     int max = find_max_sorted(random_integers, N);
     int range = find_max_sorted(random_integers, N) - find_min_sorted(random_integers);
@@ -122,10 +120,9 @@ int main(int argc, char** argv){
     double arithmetic_mean = find_arithmetic_mean(find_sum(random_integers, N), N);
     double harmonic_mean = find_harmonic_mean(random_integers, N);
     double standard_deviation = find_standard_deviation(random_integers, N, find_arithmetic_mean(find_sum(random_integers, N), N));
+    double interquartile_range = find_interquartile_range(random_integers,N);
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-
-
 
     ofstream MyFile("output1.txt");                    // Create, open, write and close a text file
     MyFile << min <<endl;
@@ -137,16 +134,9 @@ int main(int argc, char** argv){
     MyFile << arithmetic_mean <<endl;
     MyFile << harmonic_mean <<endl;
     MyFile << standard_deviation <<endl;
-    MyFile << find_interquartile_range <<endl;
+    MyFile << interquartile_range <<endl;
     MyFile << (std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) / (double)1000000000 << endl;
-
-
-
-
-
-
 
     MyFile.close();
     return 0;                                          // End of main()
 }
-
